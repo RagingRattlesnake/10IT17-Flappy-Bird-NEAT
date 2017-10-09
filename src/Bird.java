@@ -37,7 +37,7 @@ public class Bird {
     	((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, isDead() ? 0.5f : 1.0f));
         AffineTransform at = new AffineTransform();
         at.translate(Settings.BIRD_X_POS+(images[birdState].getWidth()/2), height+(images[birdState].getHeight()/2));
-        at.rotate(lerp(-Math.PI / 2 -0.3, Math.PI / 2, ((velocity+10)/21)));
+        at.rotate(rotation(-Math.PI / 2 -0.3, Math.PI / 2, ((velocity+10)/21)));
         at.translate(-images[0].getWidth() / 2, -images[0].getHeight() / 2);
         g.drawImage(images[birdState], at, null);
         //g.drawImage(images[birdState], Settings.BIRD_X_POS, height, null);
@@ -51,7 +51,7 @@ public class Bird {
         else { birdState = 1; }
     }
     
-    double lerp(double a, double b, double f) {
+    private double rotation(double a, double b, double f) {
         return a + f * (b - a);
     }
 
