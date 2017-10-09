@@ -38,7 +38,7 @@ public class Bird {
     }
 
     public void draw(Graphics2D g) {
-        ((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, isDead() ? 0.5f : 1.0f));
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, isDead() ? 0.5f : 1.0f));
         AffineTransform at = new AffineTransform();
         at.translate(Settings.BIRD_X_POS + (images[birdState].getWidth() / 2), height + (images[birdState].getHeight() / 2));
         at.rotate(rotation(-Math.PI / 2 - 0.3, Math.PI / 2, ((velocity + 10) / 21)));
