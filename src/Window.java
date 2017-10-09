@@ -1,8 +1,11 @@
+
 import javax.swing.*;
 
 public class Window extends JFrame {
 
-    public Window() { init(); }
+	private static final long serialVersionUID = 6904930471192886669L;
+
+	public Window() { init(); }
 
     private void init() {
         add(new Board());

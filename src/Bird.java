@@ -1,7 +1,8 @@
+
 import java.awt.AlphaComposite;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 
@@ -12,7 +13,7 @@ public class Bird {
     private int fitness;
     private double velocity;
     private boolean dead;
-    private Image[] images;
+    private BufferedImage[] images;
 
     public Bird() { init(); }
 
@@ -24,7 +25,7 @@ public class Bird {
     }
 
     private void loadImages() {
-        images = new Image[3];
+        images = new BufferedImage[3];
         try {
             images[0] = ImageIO.read(new File("assets/bird0.png"));
             images[1] = ImageIO.read(new File("assets/bird1.png"));
@@ -32,9 +33,15 @@ public class Bird {
         } catch (Exception e) {}
     }
 
-    public void draw(Graphics g) {
-        ((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, isDead() ? 0.5f : 1.0f));
-        g.drawImage(images[birdState], Settings.BIRD_X_POS, height, null);
+    public void draw(Graphics2D g) {
+    	((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, isDead() ? 0.5f : 1.0f));
+        AffineTransform at = new AffineTransform();
+        at.translate(Settings.BIRD_X_POS+(images[birdState].getWidth()/2), height+(images[birdState].getHeight()/2));
+        at.rotate(lerp(-Math.PI / 2 -0.3, Math.PI / 2, ((velocity+10)/21)));
+        at.translate(-images[0].getWidth() / 2, -images[0].getHeight() / 2);
+        g.drawImage(images[birdState], at, null);
+        //g.drawImage(images[birdState], Settings.BIRD_X_POS, height, null);
+        //g.drawRect(Settings.BIRD_X_POS, height, images[birdState].getWidth(), images[birdState].getHeight());
     }
 
     private void setVelocity(double newVelocity) {
@@ -42,6 +49,10 @@ public class Bird {
         if (velocity < -0.3) { birdState = 0; }
         else if (velocity > 0.3) { birdState = 2; }
         else { birdState = 1; }
+    }
+    
+    double lerp(double a, double b, double f) {
+        return a + f * (b - a);
     }
 
     public void move() {

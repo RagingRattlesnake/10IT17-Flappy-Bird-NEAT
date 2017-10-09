@@ -1,4 +1,6 @@
+
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -9,7 +11,8 @@ import java.util.ArrayList;
 
 public class Board extends JPanel implements ActionListener {
 
-    private int iterationCounter;
+	private static final long serialVersionUID = -2469276924387568876L;
+	private int iterationCounter;
     private Bird bird;
     private ArrayList<Pipe> pipes;
     private Ground ground;
@@ -39,7 +42,7 @@ public class Board extends JPanel implements ActionListener {
         background.draw(g);
         for (Pipe pipe : pipes) { pipe.draw(g); }
         ground.draw(g);
-        bird.draw(g);
+        bird.draw((Graphics2D)g);
         g.drawString("Fitness: " + bird.getFitness(), 20, Settings.WINDOW_HEIGHT - 40);
     }
 

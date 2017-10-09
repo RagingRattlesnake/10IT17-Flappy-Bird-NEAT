@@ -1,3 +1,4 @@
+
 public class Settings {
     public static final int WINDOW_WIDTH = 852;
     public static final int WINDOW_HEIGHT = 480;
