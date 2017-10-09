@@ -11,15 +11,17 @@ import java.util.ArrayList;
 
 public class Board extends JPanel implements ActionListener {
 
-	private static final long serialVersionUID = -2469276924387568876L;
-	private int iterationCounter;
+    private static final long serialVersionUID = -2469276924387568876L;
+    private int iterationCounter;
     private Bird bird;
     private ArrayList<Pipe> pipes;
     private Ground ground;
     private Background background;
     private Timer timer;
 
-    public Board() { init(); }
+    public Board() {
+        init();
+    }
 
     private void init() {
         bird = new Bird();
@@ -40,27 +42,39 @@ public class Board extends JPanel implements ActionListener {
         super.paintComponent(g);
 
         background.draw(g);
-        for (Pipe pipe : pipes) { pipe.draw(g); }
+        for (Pipe pipe : pipes) {
+            pipe.draw(g);
+        }
         ground.draw(g);
-        bird.draw((Graphics2D)g);
+        bird.draw((Graphics2D) g);
         g.drawString("Fitness: " + bird.getFitness(), 20, Settings.WINDOW_HEIGHT - 40);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (iterationCounter == 100) { pipes.add(new Pipe()); }
-        else if (iterationCounter > 100) { iterationCounter = -1; }
+        if (iterationCounter == 100) {
+            pipes.add(new Pipe());
+        } else if (iterationCounter > 100) {
+            iterationCounter = -1;
+        }
         iterationCounter++;
-        for (Pipe pipe : pipes) { pipe.move(); }
-        if (pipes.get(0).getXPos() < -pipes.get(0).getPipeWidth()) { pipes.remove(0); }
-        
+        for (Pipe pipe : pipes) {
+            pipe.move();
+        }
+        if (pipes.get(0).getXPos() < -pipes.get(0).getPipeWidth()) {
+            pipes.remove(0);
+        }
+
         ground.move();
 
         bird.move();
         bird.checkCollision(pipes.get(0).getCollisionBorders());
         bird.checkCollision(ground.getCollisionBorders());
-        if (bird.isDead()) { timer.stop(); }
-        else { bird.addFitness(); }
+        if (bird.isDead()) {
+            timer.stop();
+        } else {
+            bird.addFitness();
+        }
         repaint();
     }
 
@@ -68,7 +82,9 @@ public class Board extends JPanel implements ActionListener {
 
         private boolean gameStarted;
 
-        public KeyListener() { gameStarted = false; }
+        public KeyListener() {
+            gameStarted = false;
+        }
 
         @Override
         public void keyPressed(KeyEvent e) {

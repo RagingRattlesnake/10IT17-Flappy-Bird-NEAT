@@ -9,17 +9,21 @@ public class Ground {
     private Image image;
     private int imageOffset;
 
-    public Ground() { init(); }
+    public Ground() {
+        init();
+    }
 
-    private void init() { 
-    	loadImage(); 
-    	imageOffset = 0;
+    private void init() {
+        loadImage();
+        imageOffset = 0;
     }
 
     private void loadImage() {
         try {
             image = ImageIO.read(new File("assets/ground.png"));
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void draw(Graphics g) {
@@ -27,10 +31,10 @@ public class Ground {
             g.drawImage(image, x, Settings.GROUND_HEIGHT, null);
         }
     }
-    
+
     public void move() {
-    	imageOffset += Settings.MOVE_SPEED;
-    	imageOffset %= image.getWidth(null);
+        imageOffset += Settings.MOVE_SPEED;
+        imageOffset %= image.getWidth(null);
     }
 
     public int[] getCollisionBorders() {

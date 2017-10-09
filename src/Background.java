@@ -8,14 +8,20 @@ public class Background {
 
     private Image image;
 
-    public Background() { init(); }
+    public Background() {
+        init();
+    }
 
-    private void init() { loadImage(); }
+    private void init() {
+        loadImage();
+    }
 
     private void loadImage() {
         try {
             image = ImageIO.read(new File("assets/bg.png"));
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void draw(Graphics g) {

@@ -15,7 +15,9 @@ public class Bird {
     private boolean dead;
     private BufferedImage[] images;
 
-    public Bird() { init(); }
+    public Bird() {
+        init();
+    }
 
     private void init() {
         height = 250;
@@ -30,14 +32,16 @@ public class Bird {
             images[0] = ImageIO.read(new File("assets/bird0.png"));
             images[1] = ImageIO.read(new File("assets/bird1.png"));
             images[2] = ImageIO.read(new File("assets/bird2.png"));
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void draw(Graphics2D g) {
-    	((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, isDead() ? 0.5f : 1.0f));
+        ((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, isDead() ? 0.5f : 1.0f));
         AffineTransform at = new AffineTransform();
-        at.translate(Settings.BIRD_X_POS+(images[birdState].getWidth()/2), height+(images[birdState].getHeight()/2));
-        at.rotate(rotation(-Math.PI / 2 -0.3, Math.PI / 2, ((velocity+10)/21)));
+        at.translate(Settings.BIRD_X_POS + (images[birdState].getWidth() / 2), height + (images[birdState].getHeight() / 2));
+        at.rotate(rotation(-Math.PI / 2 - 0.3, Math.PI / 2, ((velocity + 10) / 21)));
         at.translate(-images[0].getWidth() / 2, -images[0].getHeight() / 2);
         g.drawImage(images[birdState], at, null);
         //g.drawImage(images[birdState], Settings.BIRD_X_POS, height, null);
@@ -46,11 +50,15 @@ public class Bird {
 
     private void setVelocity(double newVelocity) {
         velocity = newVelocity;
-        if (velocity < -0.3) { birdState = 0; }
-        else if (velocity > 0.3) { birdState = 2; }
-        else { birdState = 1; }
+        if (velocity < -0.3) {
+            birdState = 0;
+        } else if (velocity > 0.3) {
+            birdState = 2;
+        } else {
+            birdState = 1;
+        }
     }
-    
+
     private double rotation(double a, double b, double f) {
         return a + f * (b - a);
     }
@@ -80,11 +88,19 @@ public class Bird {
         }
     }
 
-    public void addFitness() { fitness++; }
-    
-    public int getFitness() { return fitness; }
+    public void addFitness() {
+        fitness++;
+    }
 
-    private void kill() { dead = true; }
+    public int getFitness() {
+        return fitness;
+    }
 
-    public boolean isDead() { return dead; }
+    private void kill() {
+        dead = true;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
 }

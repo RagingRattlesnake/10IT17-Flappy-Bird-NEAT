@@ -19,7 +19,7 @@ public class Pipe {
     private void init() {
         loadImages();
         space = 100;
-        height = (int)(Settings.PIPE_MIN_HEIGHT + (Settings.PIPE_MAX_HEIGHT - Settings.PIPE_MIN_HEIGHT) * Math.random());
+        height = (int) (Settings.PIPE_MIN_HEIGHT + (Settings.PIPE_MAX_HEIGHT - Settings.PIPE_MIN_HEIGHT) * Math.random());
         xPos = Settings.WINDOW_WIDTH + getPipeWidth();
     }
 
@@ -27,7 +27,9 @@ public class Pipe {
         try {
             upperPipe = ImageIO.read(new File("assets/tube1.png"));
             lowerPipe = ImageIO.read(new File("assets/tube2.png"));
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void draw(Graphics g) {
@@ -44,9 +46,15 @@ public class Pipe {
         return collisionBorders;
     }
 
-    public void move() { xPos -= Settings.MOVE_SPEED; }
+    public void move() {
+        xPos -= Settings.MOVE_SPEED;
+    }
 
-    public int getXPos() { return xPos; }
+    public int getXPos() {
+        return xPos;
+    }
 
-    public int getPipeWidth() { return upperPipe.getWidth(null); }
+    public int getPipeWidth() {
+        return upperPipe.getWidth(null);
+    }
 }

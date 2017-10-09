@@ -3,9 +3,11 @@ import javax.swing.*;
 
 public class Window extends JFrame {
 
-	private static final long serialVersionUID = 6904930471192886669L;
+    private static final long serialVersionUID = 6904930471192886669L;
 
-	public Window() { init(); }
+    private Window() {
+        init();
+    }
 
     private void init() {
         add(new Board());
@@ -17,5 +19,7 @@ public class Window extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String[] args) { new Window(); }
+    public static void main(String[] args) {
+        new Window();
+    }
 }
