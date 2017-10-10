@@ -12,7 +12,6 @@ public class Neuron {
         inputs = new ArrayList<>();
     }
 
-
     public double activate() {
         weightSum = 0;
         for (Synapse synapse : inputs) {
@@ -24,6 +23,5 @@ public class Neuron {
     private static double sigmoid(double weight) {
         return 1.0 / (1 + Math.exp(-1.0 * weight));
     }
-
 
 }
