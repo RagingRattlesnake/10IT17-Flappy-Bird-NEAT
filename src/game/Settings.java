@@ -1,3 +1,4 @@
+package game;
 
 class Settings {
     static final int WINDOW_WIDTH = 852;
@@ -7,5 +8,5 @@ class Settings {
     static final int PIPE_MIN_HEIGHT = 80;
     static final int PIPE_MAX_HEIGHT = 320;
     static final int GROUND_HEIGHT = 400;
-    static final int MOVE_SPEED = 6;
+    static final int MOVE_SPEED = 5;
 }

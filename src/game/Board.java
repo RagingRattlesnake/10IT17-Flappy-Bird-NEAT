@@ -1,3 +1,4 @@
+package game;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -52,9 +53,9 @@ public class Board extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (iterationCounter == 40) {
+        if (iterationCounter == 50) {
             pipes.add(new Pipe());
-        } else if (iterationCounter > 40) {
+        } else if (iterationCounter > 50) {
             iterationCounter = -1;
         }
         iterationCounter++;

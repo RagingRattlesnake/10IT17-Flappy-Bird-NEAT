@@ -1,3 +1,4 @@
+package game;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
@@ -44,8 +45,8 @@ public class Bird {
         at.rotate(rotation(-Math.PI / 2 - 0.3, Math.PI / 2, ((velocity + 10) / 21)));
         at.translate(-images[0].getWidth() / 2, -images[0].getHeight() / 2);
         g.drawImage(images[birdState], at, null);
-        //g.drawImage(images[birdState], Settings.BIRD_X_POS, height, null);
-        //g.drawRect(Settings.BIRD_X_POS, height, images[birdState].getWidth(), images[birdState].getHeight());
+        //g.drawImage(images[birdState], game.Settings.BIRD_X_POS, height, null);
+        //g.drawRect(game.Settings.BIRD_X_POS, height, images[birdState].getWidth(), images[birdState].getHeight());
     }
 
     private void setVelocity(double newVelocity) {

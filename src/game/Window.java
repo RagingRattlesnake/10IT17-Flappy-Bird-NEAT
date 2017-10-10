@@ -1,3 +1,4 @@
+package game;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,7 +16,7 @@ public class Window extends JFrame {
         add(new Board());
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Flappy Bird");
+        setTitle("Flappy game.Bird");
         try {
             setIconImage(ImageIO.read(new File("assets/bird0.png")));
         } catch (Exception e) {
