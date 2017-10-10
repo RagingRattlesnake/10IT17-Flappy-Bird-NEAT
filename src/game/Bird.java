@@ -85,7 +85,7 @@ public class Bird {
 
     public void jump() {
         if (!dead) {
-            setVelocity(-3);
+            setVelocity(-3.2);
         }
     }
 
