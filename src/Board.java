@@ -52,9 +52,9 @@ public class Board extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (iterationCounter == 75) {
+        if (iterationCounter == 40) {
             pipes.add(new Pipe());
-        } else if (iterationCounter > 75) {
+        } else if (iterationCounter > 40) {
             iterationCounter = -1;
         }
         iterationCounter++;
