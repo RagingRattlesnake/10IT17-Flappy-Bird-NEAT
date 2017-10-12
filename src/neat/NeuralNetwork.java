@@ -5,6 +5,9 @@ import java.util.HashMap;
 
 public class NeuralNetwork {
     public ArrayList<Layer> layers = new ArrayList<>();
+    public NeuralNetwork(){
+        layers = new ArrayList<>();
+    }
 
     public void perceptronGeneration(int input, int[] hiddens, int output) {
         int index = 0;
@@ -31,7 +34,7 @@ public class NeuralNetwork {
         data.put("neurons", new ArrayList<>());
         data.put("weights", new ArrayList<>());
         for (Layer i : layers) {
-            data.get("neurons").add((double) i.neurons.length);
+            data.get("neurons").add((double) i.neurons.size());
             for (Neuron j : i.neurons) {
                 for (double k : j.weights) {
                     data.get("weights").add(k);
@@ -50,14 +53,14 @@ public class NeuralNetwork {
         layers = new ArrayList<>();
         for (Neuron j : net.neurons) {
             layer = new Layer(index);
-            layer.populate(net.neurons.length, previousNeurons);
+            layer.populate(net.neurons.size(), previousNeurons);
             for (Neuron k : layer.neurons) {
                 for (double m : k.weights) {
                     m = j.weights.get(indexWeights);
                     indexWeights++;
                 }
             }
-            previousNeurons = net.neurons.length;
+            previousNeurons = net.neurons.size();
             index++;
             layers.add(layer);
         }
@@ -66,8 +69,8 @@ public class NeuralNetwork {
 
     public ArrayList<Double> compute(int[] inputs) {
         for (int i : inputs) {
-            if (layers.get(0) != null && layers.get(0).neurons[i] != null) {
-                layers.get(0).neurons[i].wert = i;
+            if (layers.get(0) != null && layers.get(0).neurons.get(i) != null) {
+                layers.get(0).neurons.get(i).wert = i;
             }
         }
 

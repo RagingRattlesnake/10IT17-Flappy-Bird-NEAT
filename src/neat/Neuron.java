@@ -8,6 +8,7 @@ public class Neuron {
 
     public Neuron(){
         this.wert = 0;
+        this.weights = new ArrayList<>();
     }
 
     public void populate(int nb){

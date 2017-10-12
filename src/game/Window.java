@@ -6,8 +6,6 @@ import java.io.File;
 
 public class Window extends JFrame {
 
-    private static final long serialVersionUID = 6904930471192886669L;
-
     private Window() {
         init();
     }
@@ -16,7 +14,7 @@ public class Window extends JFrame {
         add(new Board());
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Flappy game.Bird");
+        setTitle("Flappy Bird");
         try {
             setIconImage(ImageIO.read(new File("assets/bird0.png")));
         } catch (Exception e) {

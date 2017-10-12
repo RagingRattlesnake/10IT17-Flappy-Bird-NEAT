@@ -1,7 +1,9 @@
 package neat;
 
+import java.util.ArrayList;
+
 public class Layer {
-    public Neuron[] neurons;
+    public ArrayList<Neuron> neurons;
     public int id = 0;
 
     public Layer(int i){
@@ -9,11 +11,11 @@ public class Layer {
     }
 
     public void populate(int newBreedNeurons, int newBreedInputs){
-        this.neurons = new Neuron[newBreedNeurons];
+        this.neurons = new ArrayList<>();
         for(int i = 0; i < newBreedNeurons; i++){
             Neuron n = new Neuron();
             n.populate(newBreedInputs);
-            this.neurons[i] = n;
+            this.neurons.add(n);
         }
     }
 

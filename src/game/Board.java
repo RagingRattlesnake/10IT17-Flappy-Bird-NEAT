@@ -1,5 +1,8 @@
 package game;
 
+import neat.NeuralNetwork;
+import neat.Neuroevolution;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -13,19 +16,23 @@ import java.util.ArrayList;
 public class Board extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = -2469276924387568876L;
+    private Neuroevolution neuvol = new Neuroevolution();
     private int iterationCounter;
-    private Bird bird;
+    private ArrayList<Bird> birds = new ArrayList<>();
     private ArrayList<Pipe> pipes;
     private Ground ground;
     private Background background;
     private Timer timer;
-
+    private ArrayList<NeuralNetwork> gen;
     public Board() {
         init();
     }
 
     private void init() {
-        bird = new Bird();
+        gen = neuvol.nextGeneration();
+        for(NeuralNetwork nn: gen){
+            birds.add(new Bird());
+        }
         pipes = new ArrayList<>();
         pipes.add(new Pipe());
         ground = new Ground();
@@ -47,8 +54,12 @@ public class Board extends JPanel implements ActionListener {
             pipe.draw(g);
         }
         ground.draw(g);
-        bird.draw((Graphics2D) g);
-        g.drawString("Fitness: " + bird.getFitness(), 20, Settings.WINDOW_HEIGHT - 40);
+
+        for(Bird b: birds){
+            b.draw((Graphics2D) g);
+        }
+        //g.drawString("Fitness: " + birds.get(0).getFitness(), 20, Settings.WINDOW_HEIGHT - 40);
+        g.drawString("Anzahl Vögel: " + birds.size(), 600, Settings.WINDOW_HEIGHT-40);
     }
 
     @Override
@@ -67,14 +78,15 @@ public class Board extends JPanel implements ActionListener {
         }
 
         ground.move();
-
-        bird.move();
-        bird.checkCollision(pipes.get(0).getCollisionBorders());
-        bird.checkCollision(ground.getCollisionBorders());
-        if (bird.isDead()) {
-            timer.stop();
-        } else {
-            bird.addFitness();
+        for(Bird bird: birds) {
+            bird.move();
+            bird.checkCollision(pipes.get(0).getCollisionBorders());
+            bird.checkCollision(ground.getCollisionBorders());
+            if (bird.isDead()) {
+                timer.stop();
+            } else {
+                bird.addFitness();
+            }
         }
         repaint();
     }
@@ -93,7 +105,13 @@ public class Board extends JPanel implements ActionListener {
                 gameStarted = true;
                 timer.start();
             }
-            bird.jump();
+            for(Bird bird: birds){
+                bird.jump();
+                if(birds.indexOf(bird) % 2 == 0){
+                    bird.jump();
+                }
+            }
+
         }
     }
 }

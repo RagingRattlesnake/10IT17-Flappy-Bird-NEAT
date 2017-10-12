@@ -9,4 +9,6 @@ class Settings {
     static final int PIPE_MAX_HEIGHT = 320;
     static final int GROUND_HEIGHT = 400;
     static final int MOVE_SPEED = 5;
+    static final int POPULATION = 50;
+    static int generation = 0;
 }
