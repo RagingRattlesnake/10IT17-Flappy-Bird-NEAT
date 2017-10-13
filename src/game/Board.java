@@ -32,12 +32,8 @@ public class Board extends JPanel implements ActionListener {
         pipes.add(new Pipe());
         ground = new Ground();
         background = new Background();
-
         iterationCounter = 0;
-
-        //addKeyListener(new KeyListener());
         setFocusable(true);
-
     }
 
     @Override
@@ -76,7 +72,13 @@ public class Board extends JPanel implements ActionListener {
         ground.move();
         for (Bird bird : gen.getBirds()) {
             bird.move();
-            double result = bird.getNetwork().activate(bird.height - pipes.get(0).getHeight(), pipes.get(0).getXPos() - Settings.BIRD_X_POS -50);
+            double result;
+            if(pipes.get(0).getXPos()+pipes.get(0).getPipeWidth() < Settings.BIRD_X_POS){
+                result = bird.getNetwork().activate(bird.height - pipes.get(1).getHeight(), pipes.get(0).getXPos() - Settings.BIRD_X_POS);
+
+            }else {
+                result = bird.getNetwork().activate(bird.height - pipes.get(0).getHeight(), pipes.get(0).getXPos() - Settings.BIRD_X_POS);
+            }
             if (result > 0.5) {
                 bird.jump();
             }
