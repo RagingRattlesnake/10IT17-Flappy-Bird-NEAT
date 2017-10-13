@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 public class Layer {
     public ArrayList<Neuron> neurons;
-    public int id = 0;
+    public String id;
 
-    public Layer(int i){
-        this.id = i;
+    public Layer(String id){
+        this.id = id;
     }
 
-    public void populate(int newBreedNeurons, int newBreedInputs){
+    public void populate(int neurons, int synapse){
         this.neurons = new ArrayList<>();
-        for(int i = 0; i < newBreedNeurons; i++){
+        for(int i = 0; i < neurons; i++){
             Neuron n = new Neuron();
-            n.populate(newBreedInputs);
+            n.populate(synapse);
             this.neurons.add(n);
         }
     }

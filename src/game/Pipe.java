@@ -58,4 +58,8 @@ public class Pipe {
     public int getPipeWidth() {
         return upperPipe.getWidth(null);
     }
+
+    public int getHeight() {
+        return height;
+    }
 }

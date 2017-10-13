@@ -1,5 +1,7 @@
 package game;
 
+import neat.NeuralNetwork;
+
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -7,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 
-public class Bird {
+public class Bird{
 
     public int height;
     private int birdState;
@@ -15,6 +17,9 @@ public class Bird {
     private double velocity;
     private boolean dead;
     private BufferedImage[] images;
+
+
+    private NeuralNetwork network;
 
     public Bird() {
         init();
@@ -25,6 +30,7 @@ public class Bird {
         velocity = 0;
         birdState = 1;
         loadImages();
+        network = new NeuralNetwork();
     }
 
     private void loadImages() {
@@ -45,8 +51,6 @@ public class Bird {
         at.rotate(rotation(-Math.PI / 2 - 0.3, Math.PI / 2, ((velocity + 10) / 21)));
         at.translate(-images[0].getWidth() / 2, -images[0].getHeight() / 2);
         g.drawImage(images[birdState], at, null);
-        //g.drawImage(images[birdState], game.Settings.BIRD_X_POS, height, null);
-        //g.drawRect(game.Settings.BIRD_X_POS, height, images[birdState].getWidth(), images[birdState].getHeight());
     }
 
     private void setVelocity(double newVelocity) {
@@ -97,11 +101,17 @@ public class Bird {
         return fitness;
     }
 
+    public NeuralNetwork getNetwork() {
+        return network;
+    }
+
     private void kill() {
         dead = true;
+        Settings.ANZAHL_VOEGEL--;
     }
 
     public boolean isDead() {
         return dead;
     }
+
 }

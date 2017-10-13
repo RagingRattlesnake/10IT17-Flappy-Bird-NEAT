@@ -1,91 +1,117 @@
 package neat;
 
+import game.Bird;
+import game.Settings;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Generation {
-    public ArrayList<Genom> genome;
+    private static ArrayList<Bird> birds;
 
     public Generation() {
-        this.genome = new ArrayList<>();
+        if (birds != null) {
+            Generations.setPrevGeneration(this);
+        }
+        birds = generateNewGeneration();
+        Generations.setCurrGeneration(this);
     }
 
-    public void addGenome(Genom genome) {
-        for (int i = 0; i < this.genome.size(); i++) {
-            if (Neuroevolution.fitnessSort < 0) {
-                if (genome.fitness > this.genome.get(i).fitness) {
-                    continue;
+    private static void sortBirdsFitnessAsc(){
+        birds.sort(new Comparator<Bird>() {
+            @Override
+            public int compare(Bird o1, Bird o2) {
+                if (o1.getFitness() < o2.getFitness()){
+                    return -1;
                 }
-            } else {
-                if (genome.fitness < this.genome.get(i).fitness) {
-                    continue;
+                if(o1.getFitness() > o2.getFitness()){
+                    return 1;
                 }
+                return 0;
             }
-            this.genome.add(i, genome);
-        }
+        });
     }
 
-    public ArrayList<Genom> breed(Genom g1, Genom g2, int nbChilds) {
-        ArrayList<Genom> datas = new ArrayList<>();
-        Genom data;
-        for (int nb = 0; nb < nbChilds; nb++) {
-            data = g1;
-            for(Layer l: g2.network.layers){
-                for(Neuron n: l.neurons){
-                    for(double d: n.weights){
-                        if (Math.random() <= 0.5){
-                            data.network.layers.get(g2.network.layers.indexOf(l)).neurons.get(l.neurons.indexOf(n)).weights.set(n.weights.indexOf(d), d);
-                        }
-                    }
-                }
-            }
 
-            for (Layer l: data.network.layers){
-                for(Neuron n: l.neurons){
-                    for(double d: n.weights){
-                        if(Math.random() <= Neuroevolution.mutationsRate){
-                            d += Math.random() * Neuroevolution.mutationRange * 2 - Neuroevolution.mutationRange;
-                        }
-                    }
-                }
-            }
-            datas.add(data);
-        }
-        return datas;
-    }
+    public static ArrayList<Bird> generateNewGeneration() {
+        Settings.ANZAHL_VOEGEL = 50;
 
-    public ArrayList<Genom> generateNewGeneration(){
-        ArrayList<Genom> next = new ArrayList<>();
-        for(int i = 0; i < Math.round(Neuroevolution.elitism * Neuroevolution.bevoelkerung); i++){
-            if(next.size() < Neuroevolution.bevoelkerung){
-                next.add(this.genome.get(i));
+        ArrayList<Bird> birdNew = new ArrayList<>();
+        if (Generations.getPrevGeneration() == null) {
+            for (int i = 0; i < Settings.POPULATION; i++) {
+                birdNew.add(new Bird());
+            }
+            return birdNew;
+        }
+        sortBirdsFitnessAsc();
+        for (int i = 0; i < Math.round(Settings.elitism * Settings.POPULATION); i++) {
+            if (birdNew.size() < Settings.POPULATION) {
+                birdNew.add(birds.get(i));
             }
         }
-        for(int i = 0; i < Math.round(Neuroevolution.zufallVerhalten * Neuroevolution.bevoelkerung); i++){
-            Genom nn = this.genome.get(0);
-            for (Layer l: nn.network.layers){
-                for(Neuron n: l.neurons){
-                    for (int k = 0; k < n.weights.size(); k++){
-                        n.weights.set(k, Neuroevolution.randomGen());
-                    }
-                }
+
+        for (int i = 0; i < Math.round(Settings.zufallVerhalten * Settings.POPULATION); i++) {
+            for (int k = 0; k < birds.get(i).getNetwork().getInputLayer().neurons.size(); k++) {
+                birds.get(i).getNetwork().getInputLayer().neurons.get(k).populate(10);
+                birdNew.add(birds.get(i));
             }
-            if (next.size() < Neuroevolution.bevoelkerung){
-                next.add(nn);
+            for (int k = 0; k < birds.get(i).getNetwork().getHiddenLayer().neurons.size(); k++) {
+                birds.get(i).getNetwork().getHiddenLayer().neurons.get(k).populate(1);
+                birdNew.add(birds.get(i));
             }
         }
+
         int max = 0;
-        while(true){
-            for(int i = 0; i < max; i++){
-                ArrayList<Genom> childs = breed(this.genome.get(i),this.genome.get(max), (Neuroevolution.newBreedChild > 0 ? Neuroevolution.newBreedChild : 1));
-                next.addAll(childs);
-                if(next.size() >= Neuroevolution.bevoelkerung){
-                    return next;
+        while (true) {
+            for (int i = 0; i < max; i++) {
+                Bird childBird = breed(birds.get(i), birds.get(max));
+                birdNew.add(childBird);
+                if (birdNew.size() >= Settings.POPULATION) {
+                    return birdNew;
                 }
             }
             max++;
-            if(max >= this.genome.size() - 1){
+            if (max >= birds.size() - 1) {
                 max = 0;
             }
         }
+    }
+
+    public static Bird breed(Bird bird1, Bird bird2) {
+
+        for (int i = 0; i < bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().size(); i++) {
+            if (Math.random() <= Settings.crossoverRate) {
+                bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().set(i, bird2.getNetwork().getInputLayer().neurons.get(0).getWeights().get(i));
+                bird1.getNetwork().getInputLayer().neurons.get(1).getWeights().set(i, bird2.getNetwork().getInputLayer().neurons.get(1).getWeights().get(i));
+            }
+        }
+        for (int i = 0; i < bird1.getNetwork().getHiddenLayer().neurons.size(); i++) {
+            if (Math.random() <= Settings.crossoverRate) {
+                bird1.getNetwork().getHiddenLayer().neurons.get(i).getWeights().set(0, bird2.getNetwork().getHiddenLayer().neurons.get(i).getWeights().get(0));
+            }
+        }
+
+        for (int i = 0; i < bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().size(); i++) {
+            if (Math.random() <= Settings.mutationsRate) {
+                bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().set(i, bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().get(i) + Math.random() * Settings.mutationRange * 2 - Settings.mutationRange);
+                bird1.getNetwork().getInputLayer().neurons.get(1).getWeights().set(i, bird1.getNetwork().getInputLayer().neurons.get(1).getWeights().get(i) + Math.random() * Settings.mutationRange * 2 - Settings.mutationRange);
+            }
+        }
+        for (int i = 0; i < bird1.getNetwork().getHiddenLayer().neurons.size(); i++) {
+            if (Math.random() <= Settings.mutationsRate) {
+                bird1.getNetwork().getHiddenLayer().neurons.get(i).getWeights().set(0, bird1.getNetwork().getHiddenLayer().neurons.get(i).getWeights().get(0) + Math.random() * Settings.mutationRange * 2 - Settings.mutationRange);
+            }
+
+
+        }
+        return bird1;
+
+    }
+
+    public ArrayList<Bird> getBirds() {
+        return birds;
+    }
+    public void setBirds(ArrayList<Bird> birdSet){
+        birds = birdSet;
     }
 }

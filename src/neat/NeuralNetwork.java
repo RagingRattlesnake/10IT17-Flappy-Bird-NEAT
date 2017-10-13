@@ -1,97 +1,92 @@
 package neat;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.*;
 
-public class NeuralNetwork {
-    public ArrayList<Layer> layers = new ArrayList<>();
-    public NeuralNetwork(){
-        layers = new ArrayList<>();
+public class NeuralNetwork implements Serializable{
+    private Layer inputLayer;
+    private Layer hiddenLayer;
+    private Layer outputLayer;
+
+    public NeuralNetwork() {
+        this.inputLayer = new Layer("input");
+        inputLayer.populate(2, 10);
+        this.hiddenLayer = new Layer("hidden");
+        hiddenLayer.populate(10, 1);
+        this.outputLayer = new Layer("output");
+        outputLayer.populate(1, 0);
     }
 
-    public void perceptronGeneration(int input, int[] hiddens, int output) {
-        int index = 0;
-        int previousNeurons = 0;
-        Layer layer = new Layer(index);
-        layer.populate(input, previousNeurons);
-        previousNeurons = input;
-        layers.add(layer);
-        index++;
-        for (int i : hiddens) {
-            layer = new Layer(index);
-            layer.populate(hiddens[i], previousNeurons);
-            previousNeurons = hiddens[i];
-            layers.add(layer);
-            index++;
-        }
-        layer = new Layer(index);
-        layer.populate(output, previousNeurons);
-        layers.add(layer);
+    public static double sigmoid(double weight) {
+        double ap = (-weight) / 1;
+        return (1 / (1 + Math.exp(ap)));
     }
 
-    public HashMap<String, ArrayList<Double>> copyNetwork() {
-        HashMap<String, ArrayList<Double>> data = new HashMap<>();
-        data.put("neurons", new ArrayList<>());
-        data.put("weights", new ArrayList<>());
-        for (Layer i : layers) {
-            data.get("neurons").add((double) i.neurons.size());
-            for (Neuron j : i.neurons) {
-                for (double k : j.weights) {
-                    data.get("weights").add(k);
-                }
-
-            }
+    public double activate(int heightDiff, int distance) {
+        if (this.inputLayer != null) {
+            this.inputLayer.neurons.get(0).setWert(heightDiff);
+            this.inputLayer.neurons.get(1).setWert(distance);
         }
-        return data;
+
+        double sum = 0;
+        for (int i = 0; i < this.inputLayer.neurons.get(0).getWeights().size(); i++) {
+            hiddenLayer.neurons.get(i).setWert(sigmoid(this.inputLayer.neurons.get(0).getWert() * this.inputLayer.neurons.get(0).getWeights().get(i) +
+                    this.inputLayer.neurons.get(1).getWert() * this.inputLayer.neurons.get(1).getWeights().get(i)));
+        }
+        for (int i = 0; i < this.hiddenLayer.neurons.size(); i++){
+            sum += hiddenLayer.neurons.get(i).getWert() * hiddenLayer.neurons.get(i).getWeights().get(0);
+        }
+        outputLayer.neurons.get(0).setWert(sigmoid(sum));
+
+        return outputLayer.neurons.get(0).getWert();
     }
 
-    public void setNetwork(Layer net) {
-        int previousNeurons = 0;
-        int index = 0;
-        int indexWeights = 0;
-        Layer layer = null;
-        layers = new ArrayList<>();
-        for (Neuron j : net.neurons) {
-            layer = new Layer(index);
-            layer.populate(net.neurons.size(), previousNeurons);
-            for (Neuron k : layer.neurons) {
-                for (double m : k.weights) {
-                    m = j.weights.get(indexWeights);
-                    indexWeights++;
-                }
-            }
-            previousNeurons = net.neurons.size();
-            index++;
-            layers.add(layer);
-        }
-
+    public static double randomGen() {
+        return Math.random() * 2 - 1;
     }
 
-    public ArrayList<Double> compute(int[] inputs) {
-        for (int i : inputs) {
-            if (layers.get(0) != null && layers.get(0).neurons.get(i) != null) {
-                layers.get(0).neurons.get(i).wert = i;
-            }
-        }
+    public static void saveNetwork(NeuralNetwork nn){
+        try{
+            FileOutputStream fos = new FileOutputStream("network.dat");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(nn);
+            oos.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        };
+    }
 
-        Layer prevLayer = layers.get(0);
-        for(int i = 1; i < layers.size(); i++){
-            for(Neuron j: layers.get(i).neurons){
-                double sum = 0;
-                for(Neuron k: prevLayer.neurons){
-                    for (int m = 0; m < j.weights.size(); m++){
-                        sum += k.wert * j.weights.get(m);
-                    }
-                }
-                j.wert = Neuroevolution.activation(sum);
-            }
-            prevLayer = layers.get(i);
+    public static NeuralNetwork readNetwork(){
+        try{
+            FileInputStream fis = new FileInputStream("network.dat");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            return (NeuralNetwork) ois.readObject();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
-        ArrayList<Double> out = new ArrayList<>();
-        Layer lastLayer = layers.get(layers.size()-1);
-        for (Neuron i: lastLayer.neurons){
-            out.add(i.wert);
-        }
-        return out;
+    }
+
+    public Layer getInputLayer() {
+        return inputLayer;
+    }
+
+    public void setInputLayer(Layer inputLayer) {
+        this.inputLayer = inputLayer;
+    }
+
+    public Layer getHiddenLayer() {
+        return hiddenLayer;
+    }
+
+    public void setHiddenLayer(Layer hiddenLayer) {
+        this.hiddenLayer = hiddenLayer;
+    }
+
+    public Layer getOutputLayer() {
+        return outputLayer;
+    }
+
+    public void setOutputLayer(Layer outputLayer) {
+        this.outputLayer = outputLayer;
     }
 }
