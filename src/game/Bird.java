@@ -99,6 +99,9 @@ public class Bird{
 
     public void addFitness() {
         fitness++;
+        if(fitness > Settings.maxFitness){
+            Settings.maxFitness = fitness;
+        }
     }
 
     public int getFitness() {

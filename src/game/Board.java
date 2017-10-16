@@ -54,6 +54,7 @@ public class Board extends JPanel implements ActionListener {
             }
         }
         g.drawString("Fitness: " + gen.getMaxFitness() + "      Generation: " + Settings.generation +"      Anzahl Vögel: " + Settings.ANZAHL_VOEGEL, 20, Settings.WINDOW_HEIGHT - 40);
+        g.drawString("Max-Fitness: " + Settings.maxFitness, Settings.WINDOW_WIDTH - 135, Settings.WINDOW_HEIGHT - 40);
     }
 
     @Override

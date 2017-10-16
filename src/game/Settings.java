@@ -17,4 +17,5 @@ public class Settings {
     public static final double mutationRange = 0.5;
     public static int ANZAHL_VOEGEL = 0;
     public static final double crossoverRate = 0.5;
+    public static int maxFitness = 0;
 }
