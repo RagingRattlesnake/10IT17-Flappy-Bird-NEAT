@@ -1,22 +1,26 @@
 package neat;
 
-public class Generations {
-    private static Generation prevGeneration;
-    private static Generation currGeneration;
+import game.Bird;
 
-    public static Generation getPrevGeneration() {
+import java.util.ArrayList;
+
+public class Generations {
+    private static ArrayList<Bird> prevGeneration;
+    private static ArrayList<Bird> currGeneration;
+
+    public static ArrayList<Bird> getPrevGeneration() {
         return prevGeneration;
     }
 
-    public static void setPrevGeneration(Generation prevGeneration) {
+    public static void setPrevGeneration(ArrayList<Bird> prevGeneration) {
         Generations.prevGeneration = prevGeneration;
     }
 
-    public static Generation getCurrGeneration() {
+    public static ArrayList<Bird> getCurrGeneration() {
         return currGeneration;
     }
 
-    public static void setCurrGeneration(Generation currGeneration) {
+    public static void setCurrGeneration(ArrayList<Bird> currGeneration) {
         Generations.currGeneration = currGeneration;
     }
 }

@@ -11,21 +11,22 @@ public class Generation {
 
     public Generation() {
         if (birds != null) {
-            Generations.setPrevGeneration(this);
+            Generations.setPrevGeneration(birds);
         }
         birds = generateNewGeneration();
-        Generations.setCurrGeneration(this);
+
+        Generations.setCurrGeneration(birds);
     }
 
-    private static void sortBirdsFitnessAsc(){
+    private static void sortBirdsFitnessDesc(){
         birds.sort(new Comparator<Bird>() {
             @Override
             public int compare(Bird o1, Bird o2) {
                 if (o1.getFitness() < o2.getFitness()){
-                    return -1;
+                    return 1;
                 }
                 if(o1.getFitness() > o2.getFitness()){
-                    return 1;
+                    return -1;
                 }
                 return 0;
             }
@@ -35,7 +36,6 @@ public class Generation {
 
     public static ArrayList<Bird> generateNewGeneration() {
         Settings.ANZAHL_VOEGEL = Settings.POPULATION;
-
         ArrayList<Bird> birdNew = new ArrayList<>();
         if (Generations.getPrevGeneration() == null) {
             for (int i = 0; i < Settings.POPULATION; i++) {
@@ -43,29 +43,26 @@ public class Generation {
             }
             return birdNew;
         }
-        sortBirdsFitnessAsc();
+        sortBirdsFitnessDesc();
         for (int i = 0; i < Math.round(Settings.elitism * Settings.POPULATION); i++) {
             if (birdNew.size() < Settings.POPULATION) {
-                birdNew.add(birds.get(i));
+                birdNew.add(new Bird(birds.get(i).getNetwork()));
             }
         }
 
         for (int i = 0; i < Math.round(Settings.zufallVerhalten * Settings.POPULATION); i++) {
-            for (int k = 0; k < birds.get(i).getNetwork().getInputLayer().neurons.size(); k++) {
-                birds.get(i).getNetwork().getInputLayer().neurons.get(k).populate(10);
-                birdNew.add(birds.get(i));
-            }
-            for (int k = 0; k < birds.get(i).getNetwork().getHiddenLayer().neurons.size(); k++) {
-                birds.get(i).getNetwork().getHiddenLayer().neurons.get(k).populate(1);
-                birdNew.add(birds.get(i));
-            }
+            birdNew.add(new Bird());
         }
 
         int max = 0;
         while (true) {
             for (int i = 0; i < max; i++) {
                 Bird childBird = breed(birds.get(i), birds.get(max));
-                birdNew.add(childBird);
+                birdNew.add(new Bird(childBird.getNetwork()));
+//                while(birdNew.size() < Settings.POPULATION){
+//                    birdNew.add(new Bird());
+//                }
+
                 if (birdNew.size() >= Settings.POPULATION) {
                     return birdNew;
                 }
@@ -101,13 +98,14 @@ public class Generation {
             if (Math.random() <= Settings.mutationsRate) {
                 bird1.getNetwork().getHiddenLayer().neurons.get(i).getWeights().set(0, bird1.getNetwork().getHiddenLayer().neurons.get(i).getWeights().get(0) + Math.random() * Settings.mutationRange * 2 - Settings.mutationRange);
             }
-
-
         }
-        return bird1;
+        return new Bird(bird1.getNetwork());
 
     }
-
+    public int getMaxFitness(){
+        sortBirdsFitnessDesc();
+        return birds.get(0).getFitness();
+    }
     public ArrayList<Bird> getBirds() {
         return birds;
     }

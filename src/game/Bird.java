@@ -23,6 +23,11 @@ public class Bird{
 
     public Bird() {
         init();
+        network = new NeuralNetwork();
+    }
+    public Bird(NeuralNetwork nn){
+        init();
+        network = nn;
     }
 
     private void init() {
@@ -30,7 +35,6 @@ public class Bird{
         velocity = 0;
         birdState = 1;
         loadImages();
-        network = new NeuralNetwork();
     }
 
     private void loadImages() {
@@ -53,7 +57,7 @@ public class Bird{
         g.drawImage(images[birdState], at, null);
     }
 
-    private void setVelocity(double newVelocity) {
+    public void setVelocity(double newVelocity) {
         velocity = newVelocity;
         if (velocity < -0.3) {
             birdState = 0;
@@ -100,6 +104,12 @@ public class Bird{
     public int getFitness() {
         return fitness;
     }
+    public void setFitness(int i){
+        this.fitness = i;
+    }
+    public void resetState(){
+        birdState = 1;
+    }
 
     public NeuralNetwork getNetwork() {
         return network;
@@ -112,6 +122,9 @@ public class Bird{
 
     public boolean isDead() {
         return dead;
+    }
+    public void isDead(boolean bool){
+        this.dead = bool;
     }
 
 }

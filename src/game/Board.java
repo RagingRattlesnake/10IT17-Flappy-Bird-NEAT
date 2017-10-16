@@ -1,6 +1,7 @@
 package game;
 
 import neat.Generation;
+import neat.Generations;
 
 
 import java.awt.Graphics;
@@ -23,7 +24,8 @@ public class Board extends JPanel implements ActionListener {
 
     public Board() {
         init();
-        timer = new Timer(25, this);timer.start();
+        timer = new Timer(25, this);
+        timer.start();
     }
 
     private void init() {
@@ -51,14 +53,14 @@ public class Board extends JPanel implements ActionListener {
                 b.draw((Graphics2D) g);
             }
         }
-        g.drawString("Fitness: " + gen.getBirds().get(0).getFitness() + "      Generation: " + Settings.generation +"      Anzahl Vögel: " + Settings.ANZAHL_VOEGEL, 20, Settings.WINDOW_HEIGHT - 40);
+        g.drawString("Fitness: " + gen.getMaxFitness() + "      Generation: " + Settings.generation +"      Anzahl Vögel: " + Settings.ANZAHL_VOEGEL, 20, Settings.WINDOW_HEIGHT - 40);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (iterationCounter == 60) {
+        if (iterationCounter == Settings.MOVE_SPEED * 12) {
             pipes.add(new Pipe());
-        } else if (iterationCounter > 60) {
+        } else if (iterationCounter > Settings.MOVE_SPEED * 12) {
             iterationCounter = -1;
         }
         iterationCounter++;
@@ -86,9 +88,12 @@ public class Board extends JPanel implements ActionListener {
                 bird.checkCollision(pipes.get(0).getCollisionBorders());
                 bird.checkCollision(ground.getCollisionBorders());
             }
-            bird.addFitness();
+            if(!bird.isDead()){
+                bird.addFitness();
+            }
         }
         if (Settings.ANZAHL_VOEGEL <= 0) {
+            Generations.setPrevGeneration(gen.getBirds());
             gen.setBirds(Generation.generateNewGeneration());
             init();
         }

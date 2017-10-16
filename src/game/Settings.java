@@ -9,7 +9,7 @@ public class Settings {
     public static final int PIPE_MAX_HEIGHT = 320;
     public static final int GROUND_HEIGHT = 400;
     public static final int MOVE_SPEED = 5;
-    public static final int POPULATION = 25;
+    public static final int POPULATION = 10;
     public static int generation = 0;
     public static final double elitism = 0.2;
     public static final double zufallVerhalten = 0.2;
