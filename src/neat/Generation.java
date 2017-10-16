@@ -34,7 +34,7 @@ public class Generation {
 
 
     public static ArrayList<Bird> generateNewGeneration() {
-        Settings.ANZAHL_VOEGEL = 50;
+        Settings.ANZAHL_VOEGEL = Settings.POPULATION;
 
         ArrayList<Bird> birdNew = new ArrayList<>();
         if (Generations.getPrevGeneration() == null) {
