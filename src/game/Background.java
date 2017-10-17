@@ -5,11 +5,11 @@ import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
 
-public class Background {
+class Background {
 
     private Image image;
 
-    public Background() {
+    Background() {
         init();
     }
 
@@ -25,7 +25,7 @@ public class Background {
         }
     }
 
-    public void draw(Graphics g) {
+    void draw(Graphics g) {
         g.drawImage(image, 0, Settings.BACKGROUND_HEIGHT_OFFSET, null);
     }
 }

@@ -2,17 +2,17 @@ package neat;
 
 import java.util.ArrayList;
 
-public class Layer {
-    public ArrayList<Neuron> neurons;
-    public String id;
+class Layer {
+    ArrayList<Neuron> neurons;
+    private String id;
 
-    public Layer(String id){
+    Layer(String id) {
         this.id = id;
     }
 
-    public void populate(int neurons, int synapse){
+    void populate(int neurons, int synapse) {
         this.neurons = new ArrayList<>();
-        for(int i = 0; i < neurons; i++){
+        for (int i = 0; i < neurons; i++) {
             Neuron n = new Neuron();
             n.populate(synapse);
             this.neurons.add(n);

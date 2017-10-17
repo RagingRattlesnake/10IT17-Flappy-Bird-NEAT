@@ -14,25 +14,22 @@ public class Generation {
             Generations.setPrevGeneration(birds);
         }
         birds = generateNewGeneration();
-
-        Generations.setCurrGeneration(birds);
     }
 
-    private static void sortBirdsFitnessDesc(){
+    private static void sortBirdsFitnessDesc() {
         birds.sort(new Comparator<Bird>() {
             @Override
             public int compare(Bird o1, Bird o2) {
-                if (o1.getFitness() < o2.getFitness()){
+                if (o1.getFitness() < o2.getFitness()) {
                     return 1;
                 }
-                if(o1.getFitness() > o2.getFitness()){
+                if (o1.getFitness() > o2.getFitness()) {
                     return -1;
                 }
                 return 0;
             }
         });
     }
-
 
     public static ArrayList<Bird> generateNewGeneration() {
         Settings.ANZAHL_VOEGEL = Settings.POPULATION;
@@ -59,10 +56,6 @@ public class Generation {
             for (int i = 0; i < max; i++) {
                 Bird childBird = breed(birds.get(i), birds.get(max));
                 birdNew.add(new Bird(childBird.getNetwork()));
-//                while(birdNew.size() < Settings.POPULATION){
-//                    birdNew.add(new Bird());
-//                }
-
                 if (birdNew.size() >= Settings.POPULATION) {
                     return birdNew;
                 }
@@ -74,7 +67,7 @@ public class Generation {
         }
     }
 
-    public static Bird breed(Bird bird1, Bird bird2) {
+    private static Bird breed(Bird bird1, Bird bird2) {
 
         for (int i = 0; i < bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().size(); i++) {
             if (Math.random() <= Settings.crossoverRate) {
@@ -102,14 +95,17 @@ public class Generation {
         return new Bird(bird1.getNetwork());
 
     }
-    public int getMaxFitness(){
+
+    public int getMaxFitness() {
         sortBirdsFitnessDesc();
         return birds.get(0).getFitness();
     }
+
     public ArrayList<Bird> getBirds() {
         return birds;
     }
-    public void setBirds(ArrayList<Bird> birdSet){
+
+    public void setBirds(ArrayList<Bird> birdSet) {
         birds = birdSet;
     }
 }

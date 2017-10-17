@@ -20,11 +20,10 @@ public class Board extends JPanel implements ActionListener {
     private ArrayList<Pipe> pipes;
     private Ground ground;
     private Background background;
-    private Timer timer;
 
-    public Board() {
+    Board() {
         init();
-        timer = new Timer(25, this);
+        Timer timer = new Timer(25, this);
         timer.start();
     }
 
@@ -49,11 +48,11 @@ public class Board extends JPanel implements ActionListener {
         ground.draw(g);
 
         for (Bird b : gen.getBirds()) {
-            if(!b.isDead()){
+            if (!b.isDead()) {
                 b.draw((Graphics2D) g);
             }
         }
-        g.drawString("Fitness: " + gen.getMaxFitness() + "      Generation: " + Settings.generation +"      Anzahl Vögel: " + Settings.ANZAHL_VOEGEL, 20, Settings.WINDOW_HEIGHT - 40);
+        g.drawString("Fitness: " + gen.getMaxFitness() + "      Generation: " + Settings.generation + "      Anzahl Vögel: " + Settings.ANZAHL_VOEGEL, 20, Settings.WINDOW_HEIGHT - 40);
         g.drawString("Max-Fitness: " + Settings.maxFitness, Settings.WINDOW_WIDTH - 135, Settings.WINDOW_HEIGHT - 40);
     }
 
@@ -76,11 +75,11 @@ public class Board extends JPanel implements ActionListener {
         for (Bird bird : gen.getBirds()) {
             bird.move();
             double result;
-            if(pipes.get(0).getXPos()+pipes.get(0).getPipeWidth() < Settings.BIRD_X_POS){
-                result = bird.getNetwork().activate(bird.height - pipes.get(1).getHeight(), pipes.get(0).getXPos() - Settings.BIRD_X_POS);
+            if (pipes.get(0).getXPos() + pipes.get(0).getPipeWidth() < Settings.BIRD_X_POS) {
+                result = bird.getNetwork().activate(bird.getHeight() - pipes.get(1).getHeight(), pipes.get(0).getXPos() - Settings.BIRD_X_POS);
 
-            }else {
-                result = bird.getNetwork().activate(bird.height - pipes.get(0).getHeight(), pipes.get(0).getXPos() - Settings.BIRD_X_POS);
+            } else {
+                result = bird.getNetwork().activate(bird.getHeight() - pipes.get(0).getHeight(), pipes.get(0).getXPos() - Settings.BIRD_X_POS);
             }
             if (result > 0.5) {
                 bird.jump();
@@ -89,7 +88,7 @@ public class Board extends JPanel implements ActionListener {
                 bird.checkCollision(pipes.get(0).getCollisionBorders());
                 bird.checkCollision(ground.getCollisionBorders());
             }
-            if(!bird.isDead()){
+            if (!bird.isDead()) {
                 bird.addFitness();
             }
         }

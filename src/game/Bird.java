@@ -9,9 +9,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 
-public class Bird{
+public class Bird {
 
-    public int height;
+    private int height;
     private int birdState;
     private int fitness;
     private double velocity;
@@ -25,7 +25,8 @@ public class Bird{
         init();
         network = new NeuralNetwork();
     }
-    public Bird(NeuralNetwork nn){
+
+    public Bird(NeuralNetwork nn) {
         init();
         network = nn;
     }
@@ -99,19 +100,13 @@ public class Bird{
 
     public void addFitness() {
         fitness++;
-        if(fitness > Settings.maxFitness){
+        if (fitness > Settings.maxFitness) {
             Settings.maxFitness = fitness;
         }
     }
 
     public int getFitness() {
         return fitness;
-    }
-    public void setFitness(int i){
-        this.fitness = i;
-    }
-    public void resetState(){
-        birdState = 1;
     }
 
     public NeuralNetwork getNetwork() {
@@ -126,8 +121,8 @@ public class Bird{
     public boolean isDead() {
         return dead;
     }
-    public void isDead(boolean bool){
-        this.dead = bool;
-    }
 
+    public int getHeight() {
+        return height;
+    }
 }

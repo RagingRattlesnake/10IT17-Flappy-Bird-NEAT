@@ -6,32 +6,28 @@ public class Neuron {
     private double wert;
     private ArrayList<Double> weights;
 
-    public Neuron(){
+    Neuron() {
         this.wert = 0;
         this.weights = new ArrayList<>();
     }
 
-    public void populate(int synapse){
+    void populate(int synapse) {
         weights = new ArrayList<>();
-        for(int i = 0; i < synapse; i++){
+        for (int i = 0; i < synapse; i++) {
             weights.add(NeuralNetwork.randomGen());
         }
     }
 
-    public double getWert() {
+    double getWert() {
         return wert;
     }
 
-    public void setWert(double wert) {
+    void setWert(double wert) {
         this.wert = wert;
     }
 
-    public ArrayList<Double> getWeights() {
+    ArrayList<Double> getWeights() {
         return weights;
-    }
-
-    public void setWeights(ArrayList<Double> weights) {
-        this.weights = weights;
     }
 
 }

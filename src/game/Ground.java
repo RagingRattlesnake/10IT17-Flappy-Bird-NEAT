@@ -5,12 +5,12 @@ import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
 
-public class Ground {
+class Ground {
 
     private Image image;
     private int imageOffset;
 
-    public Ground() {
+    Ground() {
         init();
     }
 
@@ -27,18 +27,18 @@ public class Ground {
         }
     }
 
-    public void draw(Graphics g) {
+    void draw(Graphics g) {
         for (int x = -imageOffset; x < Settings.WINDOW_WIDTH; x += image.getWidth(null)) {
             g.drawImage(image, x, Settings.GROUND_HEIGHT, null);
         }
     }
 
-    public void move() {
+    void move() {
         imageOffset += Settings.MOVE_SPEED;
         imageOffset %= image.getWidth(null);
     }
 
-    public int[] getCollisionBorders() {
+    int[] getCollisionBorders() {
         int[] collisionBorders = new int[4];
         collisionBorders[0] = 0;
         collisionBorders[1] = Settings.WINDOW_WIDTH;

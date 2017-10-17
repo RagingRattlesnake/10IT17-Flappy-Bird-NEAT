@@ -5,7 +5,7 @@ import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
 
-public class Pipe {
+class Pipe {
 
     private int height;
     private int space;
@@ -13,7 +13,7 @@ public class Pipe {
     private Image upperPipe;
     private Image lowerPipe;
 
-    public Pipe() {
+    Pipe() {
         init();
     }
 
@@ -33,12 +33,12 @@ public class Pipe {
         }
     }
 
-    public void draw(Graphics g) {
+    void draw(Graphics g) {
         g.drawImage(lowerPipe, xPos, height + (space / 2), null);
         g.drawImage(upperPipe, xPos, height - (space / 2) - upperPipe.getHeight(null), null);
     }
 
-    public int[] getCollisionBorders() {
+    int[] getCollisionBorders() {
         int[] collisionBorders = new int[4];
         collisionBorders[0] = xPos;
         collisionBorders[1] = xPos + getPipeWidth();
@@ -47,19 +47,19 @@ public class Pipe {
         return collisionBorders;
     }
 
-    public void move() {
+    void move() {
         xPos -= Settings.MOVE_SPEED;
     }
 
-    public int getXPos() {
+    int getXPos() {
         return xPos;
     }
 
-    public int getPipeWidth() {
+    int getPipeWidth() {
         return upperPipe.getWidth(null);
     }
 
-    public int getHeight() {
+    int getHeight() {
         return height;
     }
 }
