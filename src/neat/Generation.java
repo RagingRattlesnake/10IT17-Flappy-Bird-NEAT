@@ -54,7 +54,7 @@ public class Generation {
         int max = 0;
         while (true) {
             for (int i = 0; i < max; i++) {
-                Bird childBird = breed(birds.get(i), birds.get(max));
+                Bird childBird = breed(birds.get((int)(Math.random()*(Math.round(Settings.elitism * Settings.POPULATION)))), birds.get((int)(Math.random()*(Math.round(Settings.elitism * Settings.POPULATION)))));
                 birdNew.add(new Bird(childBird.getNetwork()));
                 if (birdNew.size() >= Settings.POPULATION) {
                     return birdNew;
