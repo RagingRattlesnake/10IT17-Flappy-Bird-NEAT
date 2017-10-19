@@ -20,13 +20,7 @@ public class Generation {
         birds.sort(new Comparator<Bird>() {
             @Override
             public int compare(Bird o1, Bird o2) {
-                if (o1.getFitness() < o2.getFitness()) {
-                    return 1;
-                }
-                if (o1.getFitness() > o2.getFitness()) {
-                    return -1;
-                }
-                return 0;
+                return -(o1.getFitness()-o2.getFitness());
             }
         });
     }
@@ -51,20 +45,36 @@ public class Generation {
             birdNew.add(new Bird());
         }
 
-        int max = 0;
-        while (true) {
-            for (int i = 0; i < max; i++) {
-                Bird childBird = breed(birds.get((int)(Math.random()*(Math.round(Settings.elitism * Settings.POPULATION)))), birds.get((int)(Math.random()*(Math.round(Settings.elitism * Settings.POPULATION)))));
-                birdNew.add(new Bird(childBird.getNetwork()));
-                if (birdNew.size() >= Settings.POPULATION) {
-                    return birdNew;
+        int totalFitness = 0;
+        for(Bird b: birds){
+            totalFitness += b.getFitness();
+        }
+        for(Bird b: birds){
+            b.setProbability(b.getFitness()/(double)totalFitness);
+        }
+        for(int i = 0; i < birds.size(); i++){
+            if(i == 0){
+                birds.get(i).setLowProb(0);
+                birds.get(i).setHighProb(birds.get(i).getProbability());
+                continue;
+            }
+            birds.get(i).setLowProb(birds.get(i-1).getHighProb());
+            birds.get(i).setHighProb(birds.get(i-1).getHighProb() + birds.get(i).getProbability());
+        }
+        ArrayList<Bird> birdParent = new ArrayList<>();
+        while(birdParent.size() < 2){
+            double random = Math.random();
+            for(Bird b: birds){
+                if(random >= b.getLowProb() && random <= b.getHighProb()){
+                    birdParent.add(b);
                 }
             }
-            max++;
-            if (max >= birds.size() - 1) {
-                max = 0;
-            }
         }
+        while (birdNew.size() < Settings.POPULATION) {
+            Bird childBird = breed(birdParent.get(0), birdParent.get(1));
+            birdNew.add(new Bird(childBird.getNetwork()));
+        }
+        return birdNew;
     }
 
     private static Bird breed(Bird bird1, Bird bird2) {
@@ -72,6 +82,8 @@ public class Generation {
         for (int i = 0; i < bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().size(); i++) {
             if (Math.random() <= Settings.crossoverRate) {
                 bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().set(i, bird2.getNetwork().getInputLayer().neurons.get(0).getWeights().get(i));
+            }
+            if (Math.random() <= Settings.crossoverRate) {
                 bird1.getNetwork().getInputLayer().neurons.get(1).getWeights().set(i, bird2.getNetwork().getInputLayer().neurons.get(1).getWeights().get(i));
             }
         }
@@ -84,6 +96,8 @@ public class Generation {
         for (int i = 0; i < bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().size(); i++) {
             if (Math.random() <= Settings.mutationsRate) {
                 bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().set(i, bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().get(i) + Math.random() * Settings.mutationRange * 2 - Settings.mutationRange);
+            }
+            if (Math.random() <= Settings.mutationsRate) {
                 bird1.getNetwork().getInputLayer().neurons.get(1).getWeights().set(i, bird1.getNetwork().getInputLayer().neurons.get(1).getWeights().get(i) + Math.random() * Settings.mutationRange * 2 - Settings.mutationRange);
             }
         }

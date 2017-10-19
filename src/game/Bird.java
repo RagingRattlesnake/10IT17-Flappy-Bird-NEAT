@@ -17,7 +17,9 @@ public class Bird {
     private double velocity;
     private boolean dead;
     private BufferedImage[] images;
-
+    private double probability = 0;
+    private double lowProb = 0;
+    private double highProb = 0;
 
     private NeuralNetwork network;
 
@@ -124,5 +126,29 @@ public class Bird {
 
     public int getHeight() {
         return height;
+    }
+
+    public double getProbability() {
+        return probability;
+    }
+
+    public void setProbability(double probability) {
+        this.probability = probability;
+    }
+
+    public double getLowProb() {
+        return lowProb;
+    }
+
+    public void setLowProb(double lowProb) {
+        this.lowProb = lowProb;
+    }
+
+    public double getHighProb() {
+        return highProb;
+    }
+
+    public void setHighProb(double highProb) {
+        this.highProb = highProb;
     }
 }

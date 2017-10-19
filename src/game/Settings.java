@@ -11,7 +11,7 @@ public class Settings {
     static final int MOVE_SPEED = 5;
     public static final int POPULATION = 10;
     static int generation = 0;
-    public static final double elitism = 0.1;
+    public static final double elitism = 0.2;
     public static final double zufallVerhalten = 0.1;
     public static final double mutationsRate = 0.1;
     public static final double mutationRange = 0.2;

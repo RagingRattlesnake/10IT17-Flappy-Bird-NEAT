@@ -72,11 +72,11 @@ public class Board extends JPanel implements ActionListener {
         }
 
         ground.move();
-        for (Bird bird : gen.getBirds()) {
+        for (Bird bird: gen.getBirds()) {
             bird.move();
             double result;
             if (pipes.get(0).getXPos() + pipes.get(0).getPipeWidth() < Settings.BIRD_X_POS) {
-                result = bird.getNetwork().activate(bird.getHeight() - pipes.get(1).getHeight(), pipes.get(0).getXPos() - Settings.BIRD_X_POS);
+                result = bird.getNetwork().activate(bird.getHeight() - pipes.get(1).getHeight(), pipes.get(1).getXPos() - Settings.BIRD_X_POS);
 
             } else {
                 result = bird.getNetwork().activate(bird.getHeight() - pipes.get(0).getHeight(), pipes.get(0).getXPos() - Settings.BIRD_X_POS);
