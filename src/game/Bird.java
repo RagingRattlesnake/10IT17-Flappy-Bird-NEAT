@@ -34,7 +34,7 @@ public class Bird {
     }
 
     private void init() {
-        height = 250;
+        height = 250 - (int)(Math.random()*175);
         velocity = 0;
         birdState = 1;
         loadImages();

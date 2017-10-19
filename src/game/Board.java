@@ -72,7 +72,7 @@ public class Board extends JPanel implements ActionListener {
         }
 
         ground.move();
-        for (Bird bird: gen.getBirds()) {
+        for (Bird bird : gen.getBirds()) {
             bird.move();
             double result;
             if (pipes.get(0).getXPos() + pipes.get(0).getPipeWidth() < Settings.BIRD_X_POS) {
@@ -99,6 +99,4 @@ public class Board extends JPanel implements ActionListener {
         }
         repaint();
     }
-
-
 }
