@@ -23,7 +23,7 @@ public class Board extends JPanel implements ActionListener {
 
     Board() {
         init();
-        Timer timer = new Timer(25, this);
+        Timer timer = new Timer(20, this);
         timer.start();
     }
 
