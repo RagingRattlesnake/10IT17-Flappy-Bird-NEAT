@@ -28,7 +28,7 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void init() {
-        Settings.generation++;
+        Settings.GENERATION++;
         pipes = new ArrayList<>();
         pipes.add(new Pipe());
         ground = new Ground();
@@ -52,8 +52,8 @@ public class Board extends JPanel implements ActionListener {
                 b.draw((Graphics2D) g);
             }
         }
-        g.drawString("Fitness: " + gen.getMaxFitness() + "      Generation: " + Settings.generation + "      Anzahl Vögel: " + Settings.ANZAHL_VOEGEL, 20, Settings.WINDOW_HEIGHT - 40);
-        g.drawString("Max-Fitness: " + Settings.maxFitness, Settings.WINDOW_WIDTH - 135, Settings.WINDOW_HEIGHT - 40);
+        g.drawString("Fitness: " + gen.getMaxFitness() + "      Generation: " + Settings.GENERATION + "      Anzahl Vögel: " + Settings.ANZAHL_VOEGEL, 20, Settings.WINDOW_HEIGHT - 40);
+        g.drawString("Max-Fitness: " + Settings.MAX_FITNESS, Settings.WINDOW_WIDTH - 135, Settings.WINDOW_HEIGHT - 40);
     }
 
     @Override

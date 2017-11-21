@@ -35,13 +35,13 @@ public class Generation {
             return birdNew;
         }
         sortBirdsFitnessDesc();
-        for (int i = 0; i < Math.round(Settings.elitism * Settings.POPULATION); i++) {
+        for (int i = 0; i < Math.round(Settings.ELITISM * Settings.POPULATION); i++) {
             if (birdNew.size() < Settings.POPULATION) {
                 birdNew.add(new Bird(birds.get(i).getNetwork()));
             }
         }
 
-        for (int i = 0; i < Math.round(Settings.zufallVerhalten * Settings.POPULATION); i++) {
+        for (int i = 0; i < Math.round(Settings.ZUFALL_VERHALTEN * Settings.POPULATION); i++) {
             birdNew.add(new Bird());
         }
 
@@ -80,30 +80,30 @@ public class Generation {
     private static Bird breed(Bird bird1, Bird bird2) {
 
         for (int i = 0; i < bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().size(); i++) {
-            if (Math.random() <= Settings.crossoverRate) {
+            if (Math.random() <= Settings.CROSSOVER_RATE) {
                 bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().set(i, bird2.getNetwork().getInputLayer().neurons.get(0).getWeights().get(i));
             }
-            if (Math.random() <= Settings.crossoverRate) {
+            if (Math.random() <= Settings.CROSSOVER_RATE) {
                 bird1.getNetwork().getInputLayer().neurons.get(1).getWeights().set(i, bird2.getNetwork().getInputLayer().neurons.get(1).getWeights().get(i));
             }
         }
         for (int i = 0; i < bird1.getNetwork().getHiddenLayer().neurons.size(); i++) {
-            if (Math.random() <= Settings.crossoverRate) {
+            if (Math.random() <= Settings.CROSSOVER_RATE) {
                 bird1.getNetwork().getHiddenLayer().neurons.get(i).getWeights().set(0, bird2.getNetwork().getHiddenLayer().neurons.get(i).getWeights().get(0));
             }
         }
 
         for (int i = 0; i < bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().size(); i++) {
-            if (Math.random() <= Settings.mutationsRate) {
-                bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().set(i, bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().get(i) + Math.random() * Settings.mutationRange * 2 - Settings.mutationRange);
+            if (Math.random() <= Settings.MUTATIONS_RATE) {
+                bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().set(i, bird1.getNetwork().getInputLayer().neurons.get(0).getWeights().get(i) + Math.random() * Settings.MUTATIONS_RANGE * 2 - Settings.MUTATIONS_RANGE);
             }
-            if (Math.random() <= Settings.mutationsRate) {
-                bird1.getNetwork().getInputLayer().neurons.get(1).getWeights().set(i, bird1.getNetwork().getInputLayer().neurons.get(1).getWeights().get(i) + Math.random() * Settings.mutationRange * 2 - Settings.mutationRange);
+            if (Math.random() <= Settings.MUTATIONS_RATE) {
+                bird1.getNetwork().getInputLayer().neurons.get(1).getWeights().set(i, bird1.getNetwork().getInputLayer().neurons.get(1).getWeights().get(i) + Math.random() * Settings.MUTATIONS_RANGE * 2 - Settings.MUTATIONS_RANGE);
             }
         }
         for (int i = 0; i < bird1.getNetwork().getHiddenLayer().neurons.size(); i++) {
-            if (Math.random() <= Settings.mutationsRate) {
-                bird1.getNetwork().getHiddenLayer().neurons.get(i).getWeights().set(0, bird1.getNetwork().getHiddenLayer().neurons.get(i).getWeights().get(0) + Math.random() * Settings.mutationRange * 2 - Settings.mutationRange);
+            if (Math.random() <= Settings.MUTATIONS_RATE) {
+                bird1.getNetwork().getHiddenLayer().neurons.get(i).getWeights().set(0, bird1.getNetwork().getHiddenLayer().neurons.get(i).getWeights().get(0) + Math.random() * Settings.MUTATIONS_RANGE * 2 - Settings.MUTATIONS_RANGE);
             }
         }
         return new Bird(bird1.getNetwork());
