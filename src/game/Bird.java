@@ -51,7 +51,7 @@ public class Bird {
         }
     }
 
-    public void draw(Graphics2D g) {
+    void draw(Graphics2D g) {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, isDead() ? 0.5f : 1.0f));
         AffineTransform at = new AffineTransform();
         at.translate(Settings.BIRD_X_POS + (images[birdState].getWidth() / 2), height + (images[birdState].getHeight() / 2));
@@ -60,7 +60,7 @@ public class Bird {
         g.drawImage(images[birdState], at, null);
     }
 
-    public void setVelocity(double newVelocity) {
+    private void setVelocity(double newVelocity) {
         velocity = newVelocity;
         if (velocity < -0.3) {
             birdState = 0;
@@ -75,14 +75,14 @@ public class Bird {
         return a + f * (b - a);
     }
 
-    public void move() {
+    void move() {
         if (!dead) {
             setVelocity(velocity + 0.2);
             height += velocity + (Math.pow(velocity / 2, 3)) / 3;
         }
     }
 
-    public void checkCollision(int[] borders) {
+    void checkCollision(int[] borders) {
         if (
                 borders[0] < Settings.BIRD_X_POS + images[birdState].getWidth(null) && borders[1] > Settings.BIRD_X_POS && (
                         height < borders[2] || height + images[birdState].getHeight(null) > borders[3]
@@ -94,13 +94,13 @@ public class Bird {
         }
     }
 
-    public void jump() {
+    void jump() {
         if (!dead) {
             setVelocity(-3.2);
         }
     }
 
-    public void addFitness() {
+    void addFitness() {
         fitness++;
         if (fitness > Settings.MAX_FITNESS) {
             Settings.MAX_FITNESS = fitness;
@@ -120,11 +120,11 @@ public class Bird {
         Settings.ANZAHL_VOEGEL--;
     }
 
-    public boolean isDead() {
+    boolean isDead() {
         return dead;
     }
 
-    public int getHeight() {
+    int getHeight() {
         return height;
     }
 
