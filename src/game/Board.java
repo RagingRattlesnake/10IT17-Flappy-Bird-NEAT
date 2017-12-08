@@ -23,7 +23,7 @@ public class Board extends JPanel implements ActionListener {
 
     Board() {
         init();
-        Timer timer = new Timer(20, this);
+        Timer timer = new Timer(0, this);
         timer.start();
     }
 
@@ -52,15 +52,15 @@ public class Board extends JPanel implements ActionListener {
                 b.draw((Graphics2D) g);
             }
         }
-        g.drawString("Fitness: " + gen.getMaxFitness() + "      Generation: " + Settings.GENERATION + "      Anzahl Vögel: " + Settings.ANZAHL_VOEGEL, 20, Settings.WINDOW_HEIGHT - 40);
-        g.drawString("Max-Fitness: " + Settings.MAX_FITNESS, Settings.WINDOW_WIDTH - 135, Settings.WINDOW_HEIGHT - 40);
+        g.drawString("Fitness: " + gen.getMaxFitness() + "      Generation: " + Settings.GENERATION + "      Anzahl Vögel: " + Settings.ANZAHL_VOEGEL, 10, Settings.WINDOW_HEIGHT - 35);
+        g.drawString("Max-Fitness: " + Settings.MAX_FITNESS, 10, Settings.WINDOW_HEIGHT - 48);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (iterationCounter == Settings.MOVE_SPEED * 12) {
+        if (iterationCounter == 80) {
             pipes.add(new Pipe());
-        } else if (iterationCounter > Settings.MOVE_SPEED * 12) {
+        } else if (iterationCounter > 80) {
             iterationCounter = -1;
         }
         iterationCounter++;

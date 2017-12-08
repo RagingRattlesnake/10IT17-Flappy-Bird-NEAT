@@ -1,8 +1,6 @@
 package neat;
 
-import java.io.*;
-
-public class NeuralNetwork implements Serializable {
+public class NeuralNetwork {
     private Layer inputLayer;
     private Layer hiddenLayer;
     private Layer outputLayer;
@@ -21,6 +19,11 @@ public class NeuralNetwork implements Serializable {
         return (1 / (1 + Math.exp(ap)));
     }
 
+    private static double activate_ReLU(double weight){
+        if(weight <= 0 ) return weight*0.01;
+        else return weight;
+    }
+
     public double activate(int heightDiff, int distance) {
         if (this.inputLayer != null) {
             this.inputLayer.neurons.get(0).setWert(heightDiff);
@@ -29,7 +32,7 @@ public class NeuralNetwork implements Serializable {
 
         double sum = 0;
         for (int i = 0; i < this.inputLayer.neurons.get(0).getWeights().size(); i++) {
-            hiddenLayer.neurons.get(i).setWert(sigmoid(this.inputLayer.neurons.get(0).getWert() * this.inputLayer.neurons.get(0).getWeights().get(i) +
+            hiddenLayer.neurons.get(i).setWert(activate_ReLU(this.inputLayer.neurons.get(0).getWert() * this.inputLayer.neurons.get(0).getWeights().get(i) +
                     this.inputLayer.neurons.get(1).getWert() * this.inputLayer.neurons.get(1).getWeights().get(i)));
         }
         for (int i = 0; i < this.hiddenLayer.neurons.size(); i++) {
