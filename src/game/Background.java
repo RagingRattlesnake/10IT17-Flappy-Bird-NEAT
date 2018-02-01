@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 class Background {
 
     private Image image;
+    private int imageOffset;
 
     Background() {
         init();
@@ -15,6 +16,7 @@ class Background {
 
     private void init() {
         loadImage();
+        imageOffset = 0;
     }
 
     private void loadImage() {
@@ -25,7 +27,14 @@ class Background {
         }
     }
 
+    void move() {
+        imageOffset += 1;
+        imageOffset %= image.getWidth(null);
+    }
+
     void draw(Graphics g) {
-        g.drawImage(image, 0, Settings.BACKGROUND_HEIGHT_OFFSET, null);
+        for (int x = -imageOffset; x < Settings.WINDOW_WIDTH; x += image.getWidth(null)) {
+            g.drawImage(image, x, Settings.BACKGROUND_HEIGHT_OFFSET, null);
+        }
     }
 }

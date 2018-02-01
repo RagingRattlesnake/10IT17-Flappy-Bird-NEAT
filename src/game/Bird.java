@@ -34,7 +34,7 @@ public class Bird {
     }
 
     private void init() {
-        height = 250 - (int)(Math.random()*175);
+        height = 250 - (int) (Math.random() * 175);
         velocity = 0;
         birdState = 1;
         loadImages();
@@ -118,6 +118,17 @@ public class Bird {
     private void kill() {
         dead = true;
         Settings.ANZAHL_VOEGEL--;
+    }
+
+    public void reset() {
+        height = 250 - (int) (Math.random() * 175);
+        birdState = 1;
+        fitness = 0;
+        velocity = 0;
+        dead = false;
+        probability = 0;
+        lowProb = 0;
+        highProb = 0;
     }
 
     boolean isDead() {

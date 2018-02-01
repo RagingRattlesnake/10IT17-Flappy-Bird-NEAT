@@ -2,7 +2,7 @@ package neat;
 
 import java.util.ArrayList;
 
-public class Neuron {
+class Neuron {
     private double wert;
     private ArrayList<Double> weights;
 

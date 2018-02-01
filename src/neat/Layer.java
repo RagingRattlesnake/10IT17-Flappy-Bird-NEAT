@@ -4,11 +4,6 @@ import java.util.ArrayList;
 
 class Layer {
     ArrayList<Neuron> neurons;
-    private String id;
-
-    Layer(String id) {
-        this.id = id;
-    }
 
     void populate(int neurons, int synapse) {
         this.neurons = new ArrayList<>();

@@ -10,12 +10,13 @@ public class Settings {
     static final int GROUND_HEIGHT = 400;
     static final int MOVE_SPEED = 3;
     public static final int POPULATION = 10;
-    static int GENERATION = 0;
+    public static int GENERATION = 0;
     public static final double ELITISM = 0.2;
     public static final double ZUFALL_VERHALTEN = 0.1;
     public static final double MUTATIONS_RATE = 0.1;
-    public static final double MUTATIONS_RANGE = 0.2;
+    public static final double MUTATIONS_RANGE = 0.5;
     public static int ANZAHL_VOEGEL = 0;
-    public static final double CROSSOVER_RATE = 0.5;
-    static int MAX_FITNESS = 0;
+    public static double CROSSOVER_RATE = 0.5;
+    public static int MAX_FITNESS = 0;
+    public static int SCORE = 0;
 }

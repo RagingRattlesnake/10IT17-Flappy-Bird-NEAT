@@ -4,7 +4,6 @@ import game.Bird;
 import game.Settings;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class Generation {
     private static ArrayList<Bird> birds;
@@ -17,16 +16,12 @@ public class Generation {
     }
 
     private static void sortBirdsFitnessDesc() {
-        birds.sort(new Comparator<Bird>() {
-            @Override
-            public int compare(Bird o1, Bird o2) {
-                return -(o1.getFitness()-o2.getFitness());
-            }
-        });
+        birds.sort((Bird o1, Bird o2) -> -(o1.getFitness()-o2.getFitness()));
     }
 
     public static ArrayList<Bird> generateNewGeneration() {
         Settings.ANZAHL_VOEGEL = Settings.POPULATION;
+        Settings.SCORE = 0;
         ArrayList<Bird> birdNew = new ArrayList<>();
         if (Generations.getPrevGeneration() == null) {
             for (int i = 0; i < Settings.POPULATION; i++) {
@@ -37,7 +32,8 @@ public class Generation {
         sortBirdsFitnessDesc();
         for (int i = 0; i < Math.round(Settings.ELITISM * Settings.POPULATION); i++) {
             if (birdNew.size() < Settings.POPULATION) {
-                birdNew.add(new Bird(birds.get(i).getNetwork()));
+                birds.get(i).reset();
+                birdNew.add(birds.get(i));
             }
         }
 
@@ -49,6 +45,7 @@ public class Generation {
         for(Bird b: birds){
             totalFitness += b.getFitness();
         }
+
         for(Bird b: birds){
             b.setProbability(b.getFitness()/(double)totalFitness);
         }
