@@ -5,6 +5,7 @@ import game.Settings;
 
 import java.util.ArrayList;
 import java.sql.*;
+import java.util.UUID;
 
 public class Generations {
     private static ArrayList<Bird> prevGeneration;
@@ -14,6 +15,7 @@ public class Generations {
     }
     private static MySQLConnect mysqlConnect = new MySQLConnect();
     private static Connection db = mysqlConnect.connect();
+    private static String hash = UUID.randomUUID().toString();
 
     public static void disconnect(){
         mysqlConnect.disconnect();
@@ -22,7 +24,7 @@ public class Generations {
     public static void setPrevGeneration(ArrayList<Bird> prevGeneration) {
         Generations.prevGeneration = prevGeneration;
 
-        String sql = "INSERT INTO `fitness` (`generation`, `max-fitness`, `highest`, `score`) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO `fitness` (`generation`, `max-fitness`, `highest`, `score`, `hash`) VALUES (?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement statement = db.prepareStatement(sql);
@@ -33,6 +35,7 @@ public class Generations {
             statement.setInt(2, Settings.MAX_FITNESS);
             statement.setInt(3, prevGeneration.get(0).getFitness());
             statement.setInt(4, Settings.SCORE/250);
+            statement.setString(5, hash);
 
             statement.execute();
         } catch (SQLException e) {

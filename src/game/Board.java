@@ -67,9 +67,6 @@ public class Board extends JPanel implements ActionListener {
     @Override
 
     public void actionPerformed(ActionEvent e) {
-        if(Settings.MAX_FITNESS >= 25000){
-            System.exit(0);
-        }
         if (iterationCounter == 80) {
             pipes.add(new Pipe());
         } else if (iterationCounter > 80) {

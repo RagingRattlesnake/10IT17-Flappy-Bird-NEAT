@@ -2,3 +2,4 @@
 out/
 src/META-INF/
 mysql-connector-java-5.1.45/
+.vscode/
